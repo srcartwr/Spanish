@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spanish Practice</title>
+<style>
+:root{--bg:#faf6ef;--card:#fffdf9;--ink:#2a2118;--muted:#8a7b6a;--accent:#c4452d;--accent-ink:#fff;--line:#e6dccb;--es:#1f5f4a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17130f;--card:#211b15;--ink:#f3eadc;--muted:#a09282;--accent:#e2644b;--accent-ink:#1a0f0a;--line:#3a3128;--es:#7fd1ae;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17130f;--card:#211b15;--ink:#f3eadc;--muted:#a09282;--accent:#e2644b;--accent-ink:#1a0f0a;--line:#3a3128;--es:#7fd1ae;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;display:flex;justify-content:center;padding:20px}
+main{width:100%;max-width:620px;margin:auto 0}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px 14px;margin-bottom:16px}
+.label{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.range-val{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:.95rem;font-weight:600}
+.slider{position:relative;height:30px;margin:6px 4px 2px}
+.slider .track,.slider .fill{position:absolute;top:13px;height:4px;border-radius:2px}
+.slider .track{left:0;right:0;background:var(--line)}
+.slider .fill{background:var(--accent)}
+.slider input{position:absolute;left:0;top:0;width:100%;height:30px;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
+.slider input::-webkit-slider-runnable-track{background:none;height:30px}
+.slider input::-moz-range-track{background:none}
+.slider input::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:22px;height:22px;margin-top:4px;border-radius:50%;background:var(--card);border:3px solid var(--accent);cursor:grab}
+.slider input::-moz-range-thumb{pointer-events:auto;width:16px;height:16px;border-radius:50%;background:var(--card);border:3px solid var(--accent);cursor:grab}
+.slider input:focus-visible::-webkit-slider-thumb{outline:3px solid var(--es)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--muted);font-size:.9rem;font-weight:600;cursor:pointer;min-width:0}
+.chip .n{font-weight:400;opacity:.8;font-size:.8rem}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip:focus-visible{outline:3px solid var(--es);outline-offset:2px}
+.top{display:flex;justify-content:space-between;align-items:center;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:.85rem;color:var(--muted);margin-bottom:10px;letter-spacing:.04em;text-transform:uppercase}
+.bar{height:3px;background:var(--line);border-radius:2px;margin-bottom:14px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:36px 28px 32px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.06)}
+.en{font-size:clamp(1.6rem,5vw,2.2rem);line-height:1.25;margin:10px 0 0}
+.notes{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:.9rem;font-weight:400;color:var(--muted);margin:8px 0 0;min-height:1.3em}
+.es-wrap{min-height:110px;border-top:1px dashed var(--line);padding-top:22px;margin:22px 0 26px;display:flex;flex-direction:column;justify-content:center}
+.es{font-size:clamp(1.5rem,4.8vw,2rem);line-height:1.25;color:var(--es);font-style:italic;margin:0;visibility:hidden}
+.es-wrap .label{visibility:hidden;margin-bottom:8px}
+.es-wrap.show .es,.es-wrap.show .label{visibility:visible}
+#btn{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1.05rem;font-weight:600;background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:14px 44px;cursor:pointer;min-width:170px}
+#btn:hover{filter:brightness(1.06)}#btn:active{transform:scale(.98)}
+#btn:focus-visible{outline:3px solid var(--es);outline-offset:3px}
+.empty{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--muted);padding:30px 0}
+.hint{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:.78rem;color:var(--muted);text-align:center;margin-top:16px}
+</style>
+</head>
+<body>
+<main>
+  <div class="panel">
+    <div class="row"><span class="label">Lessons</span><span class="range-val" id="rangeVal"></span></div>
+    <div class="slider">
+      <div class="track"></div><div class="fill" id="fill"></div>
+      <input type="range" id="lo" aria-label="First lesson" min="0" value="0" step="1">
+      <input type="range" id="hi" aria-label="Last lesson" min="0" step="1">
+    </div>
+    <div class="label" style="margin-top:12px">Include</div>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div id="study" hidden>
+    <div class="top"><span id="lesson"></span><span id="count"></span></div>
+    <div class="bar"><i id="prog"></i></div>
+    <div class="card">
+      <div class="label">Say in Spanish</div>
+      <p class="en" id="en"></p>
+      <p class="notes" id="notes"></p>
+      <div class="es-wrap" id="wrap"><div class="label">Español</div><p class="es" id="es"></p></div>
+      <button id="btn" type="button">Reveal</button>
+    </div>
+    <div class="hint">Press Space or Enter to reveal / next</div>
+  </div>
+  <div class="card empty" id="empty">Loading…</div>
+</main>
+<script>
+const CSV_FILE = "Spanish Practice List.csv";
+let DATA = [], LESSONS = [], TYPES = [];   // DATA rows: [lesson, type, english, spanish, notes]
+const active = new Set();
+let deck = [], pos = 0, revealed = false;
+const $ = id => document.getElementById(id);
+const lo = $("lo"), hi = $("hi");
+
+function parseCSV(text){
+  const rows = []; let row = [], f = "", q = false;
+  for (let i = 0; i < text.length; i++){
+    const c = text[i];
+    if (q){
+      if (c === '"'){ if (text[i+1] === '"'){ f += '"'; i++; } else q = false; }
+      else f += c;
+    } else if (c === '"') q = true;
+    else if (c === ","){ row.push(f); f = ""; }
+    else if (c === "\n" || c === "\r"){
+      if (c === "\r" && text[i+1] === "\n") i++;
+      row.push(f); f = ""; rows.push(row); row = [];
+    } else f += c;
+  }
+  if (f !== "" || row.length){ row.push(f); rows.push(row); }
+  return rows.filter(r => r.some(x => x.trim() !== ""));
+}
+function loadRows(text){
+  const rows = parseCSV(text);
+  const head = rows[0].map(h => h.trim().toLowerCase());
+  const col = n => head.indexOf(n);
+  const [iL, iT, iE, iS, iN] = ["lesson","type","english","spanish","notes"].map(col);
+  if ([iL, iT, iE, iS].some(i => i < 0)) throw new Error("Missing columns");
+  const fix = x => (x || "").trim().replace(/'/g, "\u2019");
+  return rows.slice(1).map(r => {
+    const n = parseFloat(r[iL]);
+    return [isNaN(n) ? fix(r[iL]) : n.toFixed(2), fix(r[iT]), fix(r[iE]), fix(r[iS]), iN < 0 ? "" : fix(r[iN])];
+  }).filter(r => r[0] && r[1] && r[2] && r[3]);
+}
+async function init(){
+  try {
+    const res = await fetch(encodeURI(CSV_FILE), { cache: "no-cache" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    DATA = loadRows(await res.text());
+    if (!DATA.length) throw new Error("No rows");
+  } catch (e) {
+    $("study").hidden = true;
+    $("empty").hidden = false;
+    $("empty").textContent = "Couldn\u2019t load \u201c" + CSV_FILE + "\u201d. Make sure it sits in the same folder as this page and that you\u2019re opening the page from GitHub Pages (or a local server), not by double-clicking the file.";
+    return;
+  }
+  LESSONS = [...new Set(DATA.map(r => r[0]))].sort();
+  TYPES = [...new Set(DATA.map(r => r[1]))];
+  TYPES.forEach(t => active.add(t));
+  lo.max = hi.max = LESSONS.length - 1;
+  lo.value = 0; hi.value = LESSONS.length - 1;
+  updateSlider(); buildChips(); rebuild();
+}
+
+function shuffle(a){
+  a = a.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function inRange(r){
+  const i = LESSONS.indexOf(r[0]);
+  return i >= +lo.value && i <= +hi.value;
+}
+function buildChips(){
+  $("chips").innerHTML = "";
+  TYPES.forEach(t => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip" + (active.has(t) ? " on" : "");
+    b.setAttribute("aria-pressed", active.has(t));
+    const n = DATA.filter(r => r[1] === t && inRange(r)).length;
+    b.innerHTML = '<span></span><span class="n">' + n + '</span>';
+    b.firstChild.textContent = t;
+    b.onclick = () => { active.has(t) ? active.delete(t) : active.add(t); buildChips(); rebuild(); };
+    $("chips").appendChild(b);
+  });
+}
+function updateSlider(){
+  const max = LESSONS.length - 1 || 1;
+  $("fill").style.left = (lo.value / max * 100) + "%";
+  $("fill").style.right = (100 - hi.value / max * 100) + "%";
+  const a = LESSONS[lo.value], b = LESSONS[hi.value];
+  lo.style.zIndex = (+lo.value >= LESSONS.length - 1 - 0) ? 3 : 1; hi.style.zIndex = 2;
+  $("rangeVal").textContent = a === b ? a : a + " – " + b;
+}
+function rebuild(){
+  deck = shuffle(DATA.filter(r => active.has(r[1]) && inRange(r)));
+  pos = 0;
+  const has = deck.length > 0;
+  $("study").hidden = !has;
+  $("empty").textContent = "Nothing matches these settings. Turn on a type or widen the lesson range.";
+  $("empty").hidden = has;
+  if (has) render();
+}
+function render(){
+  const [lesson, type, en, es, notes] = deck[pos];
+  $("lesson").textContent = "Lesson " + lesson + " · " + type;
+  $("count").textContent = (pos + 1) + " / " + deck.length;
+  $("prog").style.width = ((pos + 1) / deck.length * 100) + "%";
+  $("en").textContent = en;
+  $("notes").textContent = notes;
+  $("es").textContent = es;
+  $("wrap").classList.remove("show");
+  $("btn").textContent = "Reveal";
+  revealed = false;
+}
+function act(){
+  if (!deck.length) return;
+  if (!revealed){
+    $("wrap").classList.add("show");
+    $("btn").textContent = "Next";
+    revealed = true;
+  } else {
+    pos++;
+    if (pos >= deck.length){
+      const last = deck[deck.length - 1];
+      deck = shuffle(deck);
+      if (deck.length > 1 && deck[0] === last) [deck[0], deck[1]] = [deck[1], deck[0]];
+      pos = 0;
+    }
+    render();
+  }
+}
+lo.addEventListener("input", () => { if (+lo.value > +hi.value) lo.value = hi.value; updateSlider(); });
+hi.addEventListener("input", () => { if (+hi.value < +lo.value) hi.value = lo.value; updateSlider(); });
+[lo, hi].forEach(el => el.addEventListener("change", () => { buildChips(); rebuild(); }));
+$("btn").addEventListener("click", act);
+document.addEventListener("keydown", e => {
+  if ((e.key === " " || e.key === "Enter") && !["BUTTON","INPUT"].includes(document.activeElement.tagName)){
+    e.preventDefault(); act();
+  }
+});
+init();
+</script>
+</body>
+</html>
